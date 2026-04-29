@@ -1,6 +1,5 @@
 import SectionWrapper from "../../SectionWrapper"
 import NavLink from "../NavLink"
-import ctaImage from "../../../public/img/presentacion.jpg"
 import Image from "next/image"
 
 const CTA = () => {
@@ -9,7 +8,17 @@ const CTA = () => {
             <div className="custom-screen">
                 <div className="items-center gap-10 rounded-3xl border border-slate-100 bg-white p-8 shadow-sm lg:flex lg:p-10">
                     <div className="flex-1 sm:hidden lg:block">
-                        <Image src={ctaImage} className="rounded-2xl md:max-w-lg border border-slate-100" alt="Asesoria academica premium para tesis" />
+                        {/* 
+                           IMPORTANTE: En Next.js, '/' ya apunta a la carpeta public. 
+                           Asegúrate de que el archivo existe en public/img/presentacion.jpg
+                        */}
+                        <Image 
+                            src="/img/presentacion.jpg" 
+                            width={500} 
+                            height={400} 
+                            className="rounded-2xl md:max-w-lg border border-slate-100 object-cover" 
+                            alt="Asesoria academica premium para tesis" 
+                        />
                     </div>
                     <div className="max-w-xl mt-6 md:mt-0 lg:max-w-2xl">
                         <p className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
