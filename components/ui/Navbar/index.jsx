@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Brand from '../Brand'
-import NavLink from '../NavLink'
 
 const Navbar = () => {
 
@@ -11,10 +10,9 @@ const Navbar = () => {
 
     const navigation = [
         { title: "Inicio", path: "/" },
-        { title: "Servicios", path: "#services" }, //toolkit
-        { title: "La Empresa", path: "#testimonials" },
-        { title: "Contacto", path: "#testimonials" },
-        { title: "Blog", path: "#testimonials" },
+        { title: "Servicios", path: "#services" },
+        { title: "Resenas", path: "#testimonials" },
+        { title: "Contacto", path: "#contacto" },
     ]
 
     useEffect(() => {
@@ -23,9 +21,14 @@ const Navbar = () => {
             document.body.classList.remove("overflow-hidden")
             setState(false)
         }
-        events.on("routeChangeStart", () => handleState());
-        events.on("hashChangeStart", () => handleState());
-    }, [])
+        events.on("routeChangeStart", handleState);
+        events.on("hashChangeStart", handleState);
+
+        return () => {
+            events.off("routeChangeStart", handleState);
+            events.off("hashChangeStart", handleState);
+        }
+    }, [events])
 
     const handleNavMenu = () => {
         setState(!state)
@@ -33,13 +36,13 @@ const Navbar = () => {
     }
 
     return (
-        <header>
-            <nav className={`bg-slate-50 w-full md:static md:text-sm ${state ? "fixed z-10 h-full" : ""}`}>
+        <header className="sticky top-0 z-40">
+            <nav className={`w-full border-b border-white/70 bg-white/70 backdrop-blur-xl md:static md:text-sm ${state ? "fixed z-10 h-full" : ""}`}>
                 <div className="custom-screen items-center mx-auto md:flex">
-                    <div className="flex items-center justify-between  py-2"> {/* py-3 md:py-5 md:block */}
+                    <div className="flex items-center justify-between py-3"> {/* py-3 md:py-5 md:block */}
                         <Brand />
                         <div className="md:hidden">
-                            <button role="button" aria-label="Open the menu" className="text-gray-900 hover:text-gray-700"
+                            <button role="button" aria-label="Open the menu" className="text-slate-900 transition-all duration-300 hover:text-brand-primary"
                                 onClick={handleNavMenu}
                             >
                                 {
@@ -57,11 +60,11 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className={`flex-1 pb-3 mt-8 md:pb-0 md:mt-0 md:block ${state ? "" : "hidden"}`}>
-                        <ul className="text-gray-900 text-lg justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0 md:text-gray-900 md:font-medium">
+                        <ul className="text-brand-accent text-lg justify-end items-center space-y-6 md:flex md:space-x-7 md:space-y-0 md:text-sm md:font-medium">
                             {
                                 navigation.map((item, idx) => {
                                     return (
-                                        <li key={idx} className="duration-150 hover:text-gray-500">
+                                        <li key={idx} className="transition-all duration-300 hover:text-brand-primary">
                                             <Link
                                                 href={item.path}
                                                 className="block"
@@ -74,12 +77,12 @@ const Navbar = () => {
                                 })
                             }
                             <li>
-                                <NavLink
+                                <Link
                                     href="/get-started"
-                                    className="block font-medium text-sm text-white bg-orange-800 hover:bg-orange-600 active:bg-orange-900 md:inline"
+                                    className="inline-flex rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-brand-accent shadow-sm transition-all duration-300 hover:opacity-95"
                                 >
-                                    ¡Pide tu Tesis Ahora!
-                                </NavLink>
+                                    Solicitar asesoria
+                                </Link>
                             </li>
                         </ul>
                     </div>
